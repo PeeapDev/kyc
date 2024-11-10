@@ -3,33 +3,27 @@
 import { useEffect, useState } from "react"
 import { QueueService } from "@/lib/services/queue.service"
 
-export function QueueTracking() {
-  const [queue, setQueue] = useState<any[]>([])
-  const queueService = new QueueService()
+interface QueueItem {
+  id: string;
+  phone_number: string;
+  queue_number: string;
+  status: string;
+  joined_at: string;
+}
 
-  useEffect(() => {
-    const fetchQueue = async () => {
-      try {
-        const queueData = await queueService.getQueue()
-        setQueue(queueData)
-      } catch (error) {
-        console.error('Error fetching queue:', error)
-      }
-    }
-
-    fetchQueue()
-  }, [])
-
+export function QueueTracking({ queue }: { queue: QueueItem[] }) {
   return (
-    <div>
-      <h2>Queue Tracking</h2>
-      <ul>
-        {queue.map(item => (
-          <li key={item.id}>
-            {item.name} - {item.queue_number}
-          </li>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Queue Tracking</h2>
+      <div className="space-y-4">
+        {queue.map((item) => (
+          <div key={item.id} className="p-4 border rounded-lg">
+            <p>Queue Number: {item.queue_number}</p>
+            <p>Phone: {item.phone_number}</p>
+            <p>Status: {item.status}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

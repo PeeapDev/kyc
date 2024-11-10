@@ -12,11 +12,13 @@ import { useAuth } from '@/lib/contexts/auth-context'
 interface UserManagementClientProps {
   onAddUser: () => void;
   currentUserId: string;
+  users?: User[];
+  onUpdateUser?: (user: User) => void;
+  onDeleteUser?: (userId: number) => void;
 }
 
-export default function UserManagementClient({ onAddUser, currentUserId }: UserManagementClientProps) {
-  const [users, setUsers] = useState<any[]>([])
-  const [userService] = useState(() => new UserService())
+export default function UserManagementClient({ onAddUser, currentUserId, users, onUpdateUser, onDeleteUser }: UserManagementClientProps) {
+  const userService = new UserService()
   const [showAddForm, setShowAddForm] = useState(false)
   const { user } = useAuth()
 
@@ -30,7 +32,7 @@ export default function UserManagementClient({ onAddUser, currentUserId }: UserM
     try {
       console.log('Loading users...')
       const users = await userService.searchUsers('')
-      console.log('Users loaded:', users)
+      console.log('Loaded users:', users)
       setUsers(users)
     } catch (error) {
       console.error('Error loading users:', error)

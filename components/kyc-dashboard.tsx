@@ -26,7 +26,7 @@ import Draggable from 'react-draggable'
 import { AddUserForm } from "./add-user-form"
 import QueueList from "./queue-list"
 import { motion, AnimatePresence } from 'framer-motion'
-import QueueTracking from './queue-tracking'
+import { QueueTracking } from './queue-tracking'
 import Link from 'next/link'
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
@@ -112,8 +112,18 @@ interface Region {
   count: number;
 }
 
-interface CompletedQueueItem extends User {
+interface CompletedQueueItem {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  documentType: string;
+  documentNumber: string;
+  role: string;
   checkoutTime: Date;
+  name: string;
 }
 
 interface QueueItem {
@@ -588,7 +598,7 @@ export function KycDashboard() {
                       <div className="space-x-4">
                         <Button onClick={handleAddToQueue}>Add to Queue</Button>
                         <Link href="/queue-tracking" passHref>
-                          <Button as="a" target="_blank" rel="noopener noreferrer">Queue Tracking</Button>
+                          <Button className="link-button">Queue Tracking</Button>
                         </Link>
                       </div>
                     </div>
@@ -637,7 +647,7 @@ export function KycDashboard() {
                       onSubmit={handleAddUser}
                       onCancel={() => setShowAddUserForm(false)}
                       formFields={[...formFields, { id: 'region', type: 'region', label: 'Region', required: true }]}
-                      regions={regions}
+                      regions={[]}
                     />
                   ) : (
                     <UserManagementClient 
@@ -781,6 +791,7 @@ export function KycDashboard() {
               onSubmit={handleNewUserSubmit}
               onCancel={() => setShowAddUserPopup(false)}
               formFields={formFields}
+              regions={[]}
             />
           </div>
         </div>

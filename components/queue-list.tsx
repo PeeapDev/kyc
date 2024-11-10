@@ -10,9 +10,10 @@ interface QueueItem {
 
 interface QueueListProps {
   queue: QueueItem[];
+  onCheckout?: (userId: number) => void;
 }
 
-export default function QueueList({ queue }: QueueListProps) {
+export default function QueueList({ queue, onCheckout }: QueueListProps) {
   return (
     <Card>
       <CardHeader>
